@@ -2,9 +2,9 @@
 FROM node:18-alpine AS frontend-builder
 WORKDIR /app
 COPY ./frontend/package.json ./frontend/vite.config.js ./
+RUN npm install
 COPY ./frontend/src ./src
 COPY ./frontend/public ./public
-RUN npm install
 RUN npm run build --workspaces=false
 
 # Stage 2: Build Spring Boot Application and Package Everything
