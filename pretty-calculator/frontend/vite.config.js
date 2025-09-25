@@ -6,10 +6,20 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'dist',
-    emptyOutDir: true
+    emptyOutDir: true,
+    // Ensure proper base path for assets in Spring Boot
+    rollupOptions: {
+      output: {
+        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'assets/[name].js',
+        assetFileNames: 'assets/[name].[ext]'
+      }
+    }
   },
   server: {
     port: 3000,
     open: true
-  }
+  },
+  // Base path for assets - important when serving from Spring Boot
+  base: '/'
 })

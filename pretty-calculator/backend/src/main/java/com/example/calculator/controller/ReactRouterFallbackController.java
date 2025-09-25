@@ -16,8 +16,18 @@ public class ReactRouterFallbackController {
      * This allows React Router to handle client-side routing properly.
      * Routes starting with /api are excluded as they should be handled by REST controllers.
      */
-    @GetMapping("/{path:[^\\.]*}")
+    @GetMapping("/\")
     public String forwardToIndex() {
+        return "forward:/index.html";
+    }
+    
+    @GetMapping("/{path:[^\.]*}")
+    public String forwardToIndexWithPath() {
+        return "forward:/index.html";
+    }
+    
+    @GetMapping("/{path:[^\.]*}/**")
+    public String forwardToIndexWithPathAndSubroutes() {
         return "forward:/index.html";
     }
 }

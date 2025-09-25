@@ -29,6 +29,7 @@ RUN mvn package -DskipTests
 
 # Stage 3: Final Runtime Image
 FROM eclipse-temurin:17-jre-alpine
+# Explicitly expose port 8080 to ensure proper container networking
 WORKDIR /app
 COPY --from=backend-builder /app/target/*.jar app.jar
 EXPOSE 8080
