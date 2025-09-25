@@ -3,15 +3,18 @@ FROM node:18-alpine AS frontend-builder
 WORKDIR /app
 COPY ./frontend/package.json ./frontend/vite.config.js ./
 RUN npm install
-COPY ./frontend/public ./public
+# Copy source files before public to ensure proper build order
 COPY ./frontend/src ./src
-# Ensure index.html is in the root for Vite build
+COPY ./frontend/public ./public
+# Copy index.html to root for Vite entry point
 RUN cp public/index.html ./index.html
+# Build the React application
 RUN npm run build --workspaces=false
 
 # Stage 2: Build Spring Boot Application and Package Everything
 FROM maven:3.8-openjdk-17 AS backend-builder
 WORKDIR /app
+# Copy Maven pom.xml first for dependency caching
 COPY ./backend/pom.xml ./
 # Create the static resources directory structure
 RUN mkdir -p /app/src/main/resources/static
@@ -19,6 +22,7 @@ RUN mkdir -p /app/src/main/resources/static
 COPY --from=frontend-builder /app/dist/* /app/src/main/resources/static/
 # Download dependencies before copying source code for better caching
 RUN mvn dependency:go-offline
+# Copy backend source code
 COPY ./backend/src ./src
 # Build the Spring Boot application with tests skipped
 RUN mvn package -DskipTests
