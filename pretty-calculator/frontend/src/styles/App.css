@@ -1,0 +1,74 @@
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  font-family: 'Arial', sans-serif;
+}
+
+calculator {
+  width: 320px;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+display {
+  width: 100%;
+  height: 80px;
+  margin-bottom: 20px;
+  padding: 16px;
+  font-size: 2rem;
+  text-align: right;
+  border: none;
+  border-radius: 12px;
+  background-color: #f0f3f6;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+button {
+  height: 64px;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+digit-button {
+  background-color: #ffffff;
+  color: #1a1f36;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+operator-button {
+  background-color: #4e73df;
+  color: white;
+}
+
+equals-button {
+  background-color: #28a745;
+  color: white;
+}
+
+clear-button {
+  background-color: #dc3545;
+  color: white;
+}
