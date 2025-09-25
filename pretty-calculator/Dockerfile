@@ -13,15 +13,18 @@ RUN npm run build --workspaces=false
 FROM maven:3.8-openjdk-17 AS backend-builder
 WORKDIR /app
 COPY ./backend/pom.xml ./
-# Ensure the static resources directory exists before copying
+# Create the static resources directory structure
 RUN mkdir -p /app/src/main/resources/static
+# Copy the built React app into static resources
 COPY --from=frontend-builder /app/dist/* /app/src/main/resources/static/
+# Download dependencies before copying source code for better caching
 RUN mvn dependency:go-offline
 COPY ./backend/src ./src
+# Build the Spring Boot application with tests skipped
 RUN mvn package -DskipTests
 
 # Stage 3: Final Runtime Image
-FROM openjdk:17-jre-alpine
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=backend-builder /app/target/*.jar app.jar
 EXPOSE 8080
